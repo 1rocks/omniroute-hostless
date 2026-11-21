@@ -13,18 +13,23 @@ export DATA_DIR="$DATA_DIR"
 
 mkdir -p "$DATA_DIR"
 
+echo "=== RUNTIME START ==="
+echo "PWD=$(pwd) USER=$(id -un 2>/dev/null || echo unknown) HOST=$HOST PORT=$PORT"
+echo "PATH=$PATH"
+
 OMNIROUTE_BIN="$(command -v omniroute || true)"
 if [ -z "$OMNIROUTE_BIN" ] && [ -x "/usr/local/bin/omniroute" ]; then
   OMNIROUTE_BIN="/usr/local/bin/omniroute"
 fi
 
 if [ -z "$OMNIROUTE_BIN" ]; then
-  echo "Error: omniroute binary not found. PATH=$PATH" >&2
-  npm prefix -g 2>/dev/null || true
-  ls -la /usr/local/bin 2>/dev/null || true
-  exit 1
+  echo "ERROR: omniroute binary not found!" >&2
+  echo "npm global prefix: $(npm prefix -g 2>/dev/null || echo unavailable)" >&2
+  ls -la /usr/local/bin 2>&1 || true
+  exit 127
 fi
 
+echo "Found omniroute at: $OMNIROUTE_BIN"
 echo "Starting OmniRoute on $HOST:$PORT using $DATA_DIR..."
 
 if [ -n "${GITHUB_TOKEN:-}" ] && [ -n "${GITHUB_USER:-}" ] && [ -n "${BACKUP_REPO_NAME:-}" ]; then
