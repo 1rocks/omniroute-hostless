@@ -6,7 +6,7 @@ RUN npm install -g omniroute
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-ENV DATA_DIR=/app/data
+ENV DATA_DIR=/tmp/omniroute-data
 ENV HOST=0.0.0.0
 EXPOSE 20128
 
