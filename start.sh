@@ -11,7 +11,7 @@ export DATA_DIR="$DATA_DIR"
 
 mkdir -p "$DATA_DIR"
 
-echo "Starting OmniRoute wrapper on port $APP_PORT using $DATA_DIR..."
+echo "Starting OmniRoute on $HOST:$PORT using $DATA_DIR..."
 
 if [ -n "${GITHUB_TOKEN:-}" ] && [ -n "${GITHUB_USER:-}" ] && [ -n "${BACKUP_REPO_NAME:-}" ]; then
   REPO_URL="https://${GITHUB_TOKEN}@github.com/${GITHUB_USER}/${BACKUP_REPO_NAME}.git"
@@ -46,4 +46,4 @@ if [ -n "${GITHUB_TOKEN:-}" ] && [ -n "${GITHUB_USER:-}" ] && [ -n "${BACKUP_REP
   fi
 fi
 
-exec omniroute --no-open --port "$APP_PORT"
+exec omniroute serve --no-open --port "$APP_PORT"
